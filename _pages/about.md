@@ -7,6 +7,6 @@ redirect_from:
   - /about.html
 ---
 
-I am a PhD student in mathematics at the Universität Regensburg, working under the supervision of Prof. Guido Kings.
+I am a master student in mathematics at the Universität Regensburg, in September i will start my PhD under the supervision of Prof. Guido Kings.
 
 My research interests include arithmetic geometry, algebraic number theory, motivic cohomology, Iwasawa theory, and special values of \(L\)-functions.
