@@ -24,8 +24,8 @@ repository               : "academicpages/academicpages.github.io"
 author:
   # Biographic information
   avatar           : "profile.png"
-  name             : "Your Sidebar Name"
-  pronouns         : # example: "she/her"  
+  name             : "Andrea Taccani"
+  pronouns         : "he/him" # example: "she/her"  
   bio              : "Master student"
   location         : "Germany, Regensburg"
   employer         : "Universität Regensburg"
