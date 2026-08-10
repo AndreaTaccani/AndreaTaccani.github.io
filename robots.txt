@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://andreataccani.com/sitemap.xml
+Sitemap: https://andreataccani.github.io/sitemap.xml

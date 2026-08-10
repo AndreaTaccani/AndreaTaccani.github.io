@@ -1,6 +1,6 @@
 # Andrea Taccani — academic website
 
-Source for [andreataccani.com](https://andreataccani.com), a dependency-free
+Source for [andreataccani.github.io](https://andreataccani.github.io), a dependency-free
 static website hosted with GitHub Pages.
 
 ## Structure
