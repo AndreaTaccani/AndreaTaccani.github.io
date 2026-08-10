@@ -7,7 +7,6 @@ static website hosted with GitHub Pages.
 
 - `index.html`: home page
 - `research/`: research interests and current thesis
-- `publications/`: publications, preprints, and thesis record
 - `cv/`: web CV
 - `teaching/`: teaching record
 - `contact/`: contact details
