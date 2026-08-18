@@ -24,7 +24,7 @@ jobs:
           set -euo pipefail
           mkdir -p build files/seminar-notes
           cat .tex-build/serre/part-* | base64 --decode | gzip -dc > build/serre.tex
-          cat .tex-build/currents/part-* | base64 --decode | gzip -dc > build/currents.tex
+          { cat .tex-build/currents/part-00; base64 --decode .tex-build/currents/part-01.double; } | base64 --decode | gzip -dc > build/currents.tex
           cat .tex-build/bl/part-* | base64 --decode | gzip -dc > build/beilinson-lichtenbaum.tex
 
       - name: Compile reports
