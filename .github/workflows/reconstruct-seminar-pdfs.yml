@@ -1,7 +1,7 @@
 name: Build seminar report PDFs
 
 on:
-  push:
+  pull_request:
     paths:
       - '.tex-build/trigger'
   workflow_dispatch:
@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: master
+          ref: ${{ github.head_ref }}
           fetch-depth: 0
 
       - name: Reconstruct LaTeX sources
@@ -35,14 +35,13 @@ jobs:
             currents.tex
             beilinson-lichtenbaum.tex
           working_directory: build
-          latexmk_use_xelatex: false
           args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode
 
       - name: Install PDF validation tools
         shell: bash
         run: sudo apt-get update && sudo apt-get install -y poppler-utils
 
-      - name: Stage public PDFs and clean temporary machinery
+      - name: Stage PDFs and remove temporary build machinery
         shell: bash
         run: |
           set -euo pipefail
@@ -56,7 +55,7 @@ jobs:
           rm -rf .tex-build
           rm -f .github/workflows/reconstruct-seminar-pdfs.yml
 
-      - name: Commit PDFs
+      - name: Commit generated PDFs to PR branch
         shell: bash
         run: |
           set -euo pipefail
@@ -64,4 +63,4 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
           git commit -m 'Add seminar report PDFs'
-          git push origin master
+          git push origin HEAD:${{ github.head_ref }}
