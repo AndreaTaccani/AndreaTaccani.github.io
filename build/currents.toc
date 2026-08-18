@@ -1,0 +1,25 @@
+\contentsline {section}{\numberline {1}Position in the Oberseminar}{2}{section.1}%
+\contentsline {section}{\numberline {2}Overview}{2}{section.2}%
+\contentsline {section}{\numberline {3}From distributions to currents}{2}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Distributions}{2}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Definition of currents}{3}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Local description}{3}{subsection.3.3}%
+\contentsline {section}{\numberline {4}The differential on currents}{4}{section.4}%
+\contentsline {section}{\numberline {5}Residues and the Cauchy kernel}{4}{section.5}%
+\contentsline {subsection}{\numberline {5.1}The residue pattern}{4}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Complex type convention}{4}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}The Cauchy residue}{5}{subsection.5.3}%
+\contentsline {section}{\numberline {6}The real spherical kernel}{5}{section.6}%
+\contentsline {section}{\numberline {7}The Bochner--Martinelli kernel}{6}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Construction and residue}{6}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Bochner--Martinelli formula for functions}{7}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Blow-up interpretation}{7}{subsection.7.3}%
+\contentsline {section}{\numberline {8}The local $\bar \partial $-homotopy formula}{8}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Regularity in degree zero}{8}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}The diagonal current and the Koppelman operator}{8}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Extension to compactly supported currents}{9}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}Local exactness for currents}{10}{subsection.8.4}%
+\contentsline {section}{\numberline {9}Cohomology with currents}{10}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Dolbeault current sheaves}{10}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Dolbeault cohomology computed by currents}{11}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}The de Rham current complex}{11}{subsection.9.3}%

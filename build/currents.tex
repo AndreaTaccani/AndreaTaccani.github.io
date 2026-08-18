@@ -1,0 +1,781 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{mathrsfs}
+\usepackage{array,booktabs}
+\usepackage{tikz-cd}
+
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\C}{\mathbb C}
+\newcommand{\R}{\mathbb R}
+\newcommand{\PP}{\mathbb P}
+\newcommand{\A}{\mathcal A}
+\newcommand{\Dc}{\mathcal D}
+\newcommand{\Dcur}{\mathcal D}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\ddbar}{\bar\partial}
+\newcommand{\Om}{\Omega}
+\newcommand{\Vol}{\operatorname{vol}}
+\newcommand{\prz}{\pi_z}
+\newcommand{\prw}{\pi_w}
+
+\title{Currents, Residues, and the Bochner--Martinelli Kernel}
+\author{Andrea Taccani\\[2mm]\small Oberseminar report}
+\date{June 2026; revised August 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+These notes develop the theory of currents as an enlargement of differential forms. Currents contain locally integrable forms, geometric chains, singular kernels, and residue terms, while the current complexes compute the same de Rham and Dolbeault cohomology as smooth forms. The Bochner--Martinelli kernel is treated as the higher-dimensional Cauchy kernel: it is obtained from the real spherical kernel, its residue is computed, and its relation with the one-variable Cauchy kernel is explained on the blow-up of $\C^n$ at the origin. The local $\bar\partial$-homotopy formula is formulated through the current identity on the diagonal, which fixes the signs without choosing ad hoc Koppelman components.
+\end{abstract}
+
+\tableofcontents
+
+\section{Position in the Oberseminar}
+
+The Oberseminar moves through the chain
+\[
+\begin{aligned}
+\text{Beilinson--Deligne cohomology}
+&\rightsquigarrow \text{distributions}
+\rightsquigarrow \text{currents}\\
+&\rightsquigarrow \text{tempered currents}\\
+&\rightsquigarrow \text{regulators and Beilinson-type conjectures}.
+\end{aligned}
+\]
+The present report supplies the current-theoretic part. A distribution is a continuous functional on compactly supported test functions. A current is the corresponding notion with compactly supported test forms. This permits smooth forms, integration over chains, singular kernels, and residue terms to live in one differential complex.
+
+The two cohomological statements proved below are
+\[
+H^*_{\mathrm{dR}}(M;\C)\simeq H^*(\Dcur^*(M),d)
+\]
+for a smooth real manifold $M$, and
+\[
+H^q(X,\Omega_X^p)\simeq H^q\bigl(\Dcur^{p,*}(X),\ddbar\bigr)
+\]
+for a complex manifold $X$.
+
+\section{Overview}
+
+We first recall distributions and define currents with a cohomological degree convention. The current differential is the transpose of the differential on test forms, with the sign chosen so that a smooth form and its associated current have the same differential. We then isolate the residue mechanism in one complex variable and in the real spherical kernel. The $(n,n-1)$ component gives the Bochner--Martinelli kernel.
+
+For the $\bar\partial$-homotopy formula, the efficient object is not a list of separately signed Koppelman components. If
+\[
+\delta:\C_z^n\times\C_w^n\longrightarrow\C^n,\qquad \delta(z,w)=w-z,
+\]
+then the pullback of the Bochner--Martinelli current satisfies
+\[
+\ddbar\,\delta^*T_\beta=[\Delta]
+\]
+on $\C_z^n\times\C_w^n$, where $\Delta$ is the diagonal. Fiber integration against this current gives the homotopy operator. This formulation fixes all Koszul signs through the ordinary Leibniz rule and avoids the sign ambiguity that occurs if the mixed $d\bar z$ and $d\bar w$ factors are regrouped without an explicit convention.
+
+\section{From distributions to currents}
+
+\subsection{Distributions}
+
+Let $U\subseteq\R^n$ be open. Write $C_c^\infty(U)$ for the space of compactly supported smooth functions with its standard test-function topology.
+
+\begin{definition}
+A distribution on $U$ is a continuous linear functional
+\[
+T:C_c^\infty(U)\longrightarrow\C.
+\]
+\end{definition}
+
+If $\psi\in L^1_{\mathrm{loc}}(U)$, then
+\[
+T_\psi(\varphi)=\int_U \psi(x)\varphi(x)\,dx
+\]
+defines a distribution. The delta distribution at $a\in U$ is $\delta_a(\varphi)=\varphi(a)$.
+
+If $D_i=\partial/\partial x_i$, the distributional derivative is
+\[
+(D_iT)(\varphi)=-T(D_i\varphi).
+\]
+If $\psi$ is smooth, integration by parts gives $D_iT_\psi=T_{D_i\psi}$.
+
+\begin{example}[Heaviside function]
+Let $H$ be $0$ on $(-\infty,0)$ and $1$ on $(0,\infty)$. Then
+\[
+D T_H=\delta_0.
+\]
+Indeed,
+\[
+(DT_H)(\varphi)=-\int_0^\infty \varphi'(x)\,dx=\varphi(0).
+\]
+The distributional derivative records the boundary term concentrated at the jump.
+\end{example}
+
+\subsection{Definition of currents}
+
+Let $M$ be an oriented smooth manifold of real dimension $m$, and let $\A_c^k(M)$ denote compactly supported smooth $k$-forms.
+
+\begin{definition}[Cohomological convention]
+A current of degree $q$ is a continuous linear functional
+\[
+T:\A_c^{m-q}(M)\longrightarrow\C.
+\]
+The space of such currents is denoted $\Dcur^q(M)$.
+\end{definition}
+
+A smooth $q$-form $\omega$ defines
+\[
+T_\omega(\eta)=\int_M\omega\wedge\eta,
+\qquad \eta\in\A_c^{m-q}(M).
+\]
+More generally, every locally integrable $q$-form defines a current by the same formula.
+
+If $\Gamma$ is an oriented piecewise smooth $(m-q)$-chain, then
+\[
+T_\Gamma(\eta)=\int_\Gamma\eta
+\]
+defines a degree-$q$ current. In complex geometry, an analytic subset of codimension $p$ defines a current of type $(p,p)$.
+
+\subsection{Local description}
+
+On a coordinate open set $U\subseteq\R^m$, every degree-$q$ current has a unique expression
+\[
+T=\sum_{|I|=q}T_I\,dx_I
+\]
+with scalar distribution coefficients $T_I$. This follows by testing against functions times the complementary coordinate forms. Conversely, such a finite sum defines a current. Thus currents are differential forms with distribution coefficients, although the intrinsic definition is the functional on compactly supported test forms.
+
+\section{The differential on currents}
+
+Let $T\in\Dcur^q(M)$. Define $dT\in\Dcur^{q+1}(M)$ by
+\[
+(dT)(\eta)=(-1)^{q+1}T(d\eta),
+\qquad \eta\in\A_c^{m-q-1}(M).
+\]
+
+\begin{proposition}[Compatibility with smooth forms]
+For every smooth $q$-form $\omega$,
+\[
+dT_\omega=T_{d\omega}.
+\]
+\end{proposition}
+
+\begin{proof}
+For $\eta\in\A_c^{m-q-1}(M)$, Stokes' theorem applied to the compactly supported form $\omega\wedge\eta$ gives
+\[
+0=\int_M d(\omega\wedge\eta)
+ =\int_M d\omega\wedge\eta+(-1)^q\int_M\omega\wedge d\eta.
+\]
+Hence
+\[
+(dT_\omega)(\eta)=(-1)^{q+1}\int_M\omega\wedge d\eta
+=\int_Md\omega\wedge\eta.
+\]
+\end{proof}
+
+\begin{proposition}[Compatibility with boundaries]
+If $\Gamma$ is an oriented $(m-q)$-chain, then
+\[
+dT_\Gamma=(-1)^{q+1}T_{\partial\Gamma}.
+\]
+\end{proposition}
+
+\begin{proof}
+For $\eta\in\A_c^{m-q-1}(M)$,
+\[
+(dT_\Gamma)(\eta)=(-1)^{q+1}\int_\Gamma d\eta
+=(-1)^{q+1}\int_{\partial\Gamma}\eta.
+\]
+\end{proof}
+
+\section{Residues and the Cauchy kernel}
+
+\subsection{The residue pattern}
+
+Let $\omega$ be a locally integrable $q$-form, smooth on $M\setminus S$, where $S$ is closed. Assume that the ordinary form $d\omega$ on $M\setminus S$ extends to a locally integrable $(q+1)$-form on $M$. The residue current is
+\[
+R(\omega):=dT_\omega-T_{d\omega}.
+\]
+It is supported on $S$. Indeed, on any open set disjoint from $S$, Proposition 4.1 applies to the smooth form $\omega$ and the two terms agree. Thus the residue measures the contribution lost by differentiating only on the nonsingular locus.
+
+\subsection{Complex type convention}
+
+Let $X$ be a complex manifold of complex dimension $n$. Write $\A^{p,q}(X)$ for smooth forms of type $(p,q)$ and $\A_c^{p,q}(X)$ for compactly supported ones. A current of type $(p,q)$ is a continuous functional
+\[
+T:\A_c^{n-p,n-q}(X)\longrightarrow\C.
+\]
+The space is denoted $\Dcur^{p,q}(X)$.
+
+For $T\in\Dcur^{p,q}(X)$ define
+\[
+(\ddbar T)(\eta)=(-1)^{p+q+1}T(\ddbar\eta).
+\]
+With this convention, $\ddbar T_\omega=T_{\ddbar\omega}$ for every smooth $(p,q)$-form $\omega$.
+
+\subsection{The Cauchy residue}
+
+On $\C$ set
+\[
+\kappa=\frac{1}{2\pi i}\frac{dz}{z}.
+\]
+It is locally integrable, smooth on $\C^*$, and $\ddbar\kappa=0$ on $\C^*$.
+
+\begin{proposition}[Cauchy residue]
+As currents on $\C$,
+\[
+\ddbar T_\kappa=\delta_0.
+\]
+\end{proposition}
+
+\begin{proof}
+Let $f\in C_c^\infty(\C)$ and choose $R$ with $\supp(f)\subset B_R(0)$. Since $\kappa$ has type $(1,0)$,
+\[
+(\ddbar T_\kappa)(f)=\lim_{\varepsilon\to0}
+\int_{B_R\setminus B_\varepsilon}\kappa\wedge\ddbar f.
+\]
+On $\C^*$, $\ddbar(f\kappa)=\ddbar f\wedge\kappa$, and $\kappa\wedge\ddbar f=-\ddbar f\wedge\kappa$. Stokes' theorem on $B_R\setminus B_\varepsilon$ therefore yields
+\[
+(\ddbar T_\kappa)(f)
+=\lim_{\varepsilon\to0}\int_{|z|=\varepsilon}
+ f(z)\frac{1}{2\pi i}\frac{dz}{z}.
+\]
+Writing $z=\varepsilon e^{i\theta}$ gives
+\[
+\frac1{2\pi}\int_0^{2\pi}f(\varepsilon e^{i\theta})\,d\theta\longrightarrow f(0).
+\]
+\end{proof}
+
+\section{The real spherical kernel}
+
+Let $x=(x_1,\dots,x_m)$ be the standard coordinates on $\R^m$, $m\ge2$, let
+\[
+r=\|x\|,\qquad \Phi=dx_1\wedge\cdots\wedge dx_m,
+\]
+and let
+\[
+R=\sum_{j=1}^m x_j\frac{\partial}{\partial x_j}
+\]
+be the radial vector field. Define
+\[
+\alpha_m=c_m\frac{\iota_R\Phi}{r^m},
+\qquad c_m=\frac1{\Vol(S^{m-1})}.
+\]
+
+\begin{proposition}[Real spherical residue]
+The form $\alpha_m$ is locally integrable on $\R^m$, smooth and closed on $\R^m\setminus\{0\}$, and
+\[
+dT_{\alpha_m}=\delta_0.
+\]
+\end{proposition}
+
+\begin{proof}
+The coefficients have size $O(r^{1-m})$, which is locally integrable because the polar volume element is $r^{m-1}\,dr\,d\sigma$.
+
+Let
+\[
+\pi:\R^m\setminus\{0\}\longrightarrow S^{m-1},\qquad \pi(x)=x/\|x\|.
+\]
+In polar coordinates,
+\[
+\Phi=r^{m-1}dr\wedge\pi^*\omega_{S^{m-1}},
+\qquad R=r\frac\partial{\partial r}.
+\]
+Hence
+\[
+\iota_R\Phi=r^m\pi^*\omega_{S^{m-1}},
+\qquad \alpha_m=c_m\pi^*\omega_{S^{m-1}}.
+\]
+Thus $d\alpha_m=0$ away from $0$ and $\int_{\partial B_\varepsilon}\alpha_m=1$.
+
+For $f\in C_c^\infty(\R^m)$, apply Stokes' theorem on $B_{R_0}\setminus B_\varepsilon$ with $R_0$ larger than the support of $f$. The outer boundary term vanishes, and the current sign gives
+\[
+(dT_{\alpha_m})(f)=\lim_{\varepsilon\to0}
+\int_{\partial B_\varepsilon}f\alpha_m=f(0).
+\]
+\end{proof}
+
+The form $\alpha_m$ is the normalized angular form around the origin. The Bochner--Martinelli kernel is its complex component of the bidegree appropriate for $\bar\partial$.
+
+\section{The Bochner--Martinelli kernel}
+
+\subsection{Construction and residue}
+
+On $\C^n$ write $z_j=x_j+iy_j$ and
+\[
+r^2=\|z\|^2=\sum_{j=1}^n|z_j|^2,
+\quad
+\Om=dz_1\wedge\cdots\wedge dz_n,
+\quad
+\overline\Om=d\bar z_1\wedge\cdots\wedge d\bar z_n.
+\]
+Let
+\[
+W=\sum_{j=1}^n\bar z_j\frac\partial{\partial\bar z_j}.
+\]
+Define
+\[
+\beta(z)=C_n\frac{\Om\wedge\iota_W\overline\Om}{\|z\|^{2n}}
+\]
+with $C_n$ chosen so that
+\[
+\int_{\partial B_\varepsilon(0)}\beta=1
+\]
+for the complex boundary orientation. Equivalently,
+\[
+\beta(z)=C_n\sum_{j=1}^n(-1)^{j-1}
+\frac{\bar z_j\,dz_1\wedge\cdots\wedge dz_n\wedge
+ d\bar z_1\wedge\cdots\wedge\widehat{d\bar z_j}\wedge\cdots\wedge d\bar z_n}
+{\|z\|^{2n}}.
+\]
+
+\begin{proposition}[Bochner--Martinelli residue]
+The form $\beta$ is locally integrable, smooth on $\C^n\setminus\{0\}$, satisfies
+\[
+\ddbar\beta=0\qquad\text{on }\C^n\setminus\{0\},
+\]
+and as a current
+\[
+\ddbar T_\beta=\delta_0.
+\]
+\end{proposition}
+
+\begin{proof}
+The numerator is $O(r)$ and the denominator is $r^{2n}$, so the coefficients are $O(r^{1-2n})$ and therefore locally integrable in real dimension $2n$.
+
+Set
+\[
+A=\iota_W\overline\Om
+=\sum_{j=1}^n(-1)^{j-1}\bar z_j\,
+ d\bar z_1\wedge\cdots\wedge\widehat{d\bar z_j}\wedge\cdots\wedge d\bar z_n.
+\]
+Then $\ddbar A=n\overline\Om$ and
+\[
+\ddbar(r^{-2n})=-nr^{-2n-2}\sum_{k=1}^n z_k\,d\bar z_k.
+\]
+Moreover
+\[
+\left(\sum_{k=1}^n z_k\,d\bar z_k\right)\wedge A=r^2\overline\Om.
+\]
+Consequently $\ddbar(r^{-2n}A)=0$ on $\C^n\setminus\{0\}$, and hence $\ddbar\beta=0$ there.
+
+The current residue is obtained exactly as in Proposition 5.1. For $f\in C_c^\infty(\C^n)$, Stokes' theorem on a punctured ball and the normalization of $C_n$ give
+\[
+(\ddbar T_\beta)(f)=\lim_{\varepsilon\to0}
+\int_{\partial B_\varepsilon}f\beta=f(0).
+\]
+\end{proof}
+
+\subsection{Bochner--Martinelli formula for functions}
+
+\begin{proposition}
+Let $B_R=B_R(0)\subset\C^n$ and $f\in C^\infty(\overline{B_R})$. Then
+\[
+f(0)=\int_{\partial B_R}f\beta-\int_{B_R}\ddbar f\wedge\beta.
+\]
+If $f$ is holomorphic, the second term vanishes.
+\end{proposition}
+
+\begin{proof}
+On $B_R\setminus B_\varepsilon$ one has $\ddbar\beta=0$, and since $f\beta$ has type $(n,n-1)$,
+\[
+d(f\beta)=\ddbar(f\beta)=\ddbar f\wedge\beta.
+\]
+Thus
+\[
+\int_{B_R\setminus B_\varepsilon}\ddbar f\wedge\beta
+=\int_{\partial B_R}f\beta-\int_{\partial B_\varepsilon}f\beta.
+\]
+The final integral tends to $f(0)$.
+\end{proof}
+
+\subsection{Blow-up interpretation}
+
+Let
+\[
+\rho:\C^n\setminus\{0\}\to\PP^{n-1},\qquad z\mapsto[z],
+\]
+and let
+\[
+\mu:\operatorname{Bl}_0\C^n\to\C^n
+\]
+be the blow-up. Its exceptional divisor is $E\simeq\PP^{n-1}$, and the blow-up is the total space of $\mathcal O_{\PP^{n-1}}(-1)$. Let
+\[
+p:\operatorname{Bl}_0\C^n\to\PP^{n-1}
+\]
+be the bundle projection.
+
+Let $\omega_{\mathrm{FS}}$ be normalized by
+\[
+\rho^*\omega_{\mathrm{FS}}
+=\frac{i}{2\pi}\,\partial\ddbar\log\|z\|^2.
+\]
+Up to the corresponding normalization constant,
+\[
+\beta=C'_n\,\partial\log\|z\|^2\wedge
+\bigl(\partial\ddbar\log\|z\|^2\bigr)^{n-1}.
+\]
+
+\begin{proposition}[Cauchy factor on the blow-up]
+On the affine blow-up chart
+\[
+z_1=\lambda,\qquad z_j=\lambda u_j\quad(j\ge2),
+\]
+one has on $\lambda\ne0$
+\[
+\mu^*\beta=C''_n\frac{d\lambda}{\lambda}
+\wedge p^*(\omega_{\mathrm{FS}}^{n-1}).
+\]
+Thus the Bochner--Martinelli kernel becomes the one-variable logarithmic kernel in the tautological line direction, multiplied by the Fubini--Study volume form in the projective directions.
+\end{proposition}
+
+\begin{proof}
+Set $\theta=\partial\log\|z\|^2$. Both
+\[
+\theta\wedge(\ddbar\theta)^{n-1}
+\quad\text{and}\quad
+\frac{\Om\wedge\iota_W\overline\Om}{\|z\|^{2n}}
+\]
+are $U(n)$-invariant $(n,n-1)$-forms with the same homogeneity. Evaluating at $(r,0,\dots,0)$ shows that they differ by a nonzero constant.
+
+On the blow-up chart,
+\[
+\|z\|^2=|\lambda|^2\bigl(1+|u_2|^2+\cdots+|u_n|^2\bigr).
+\]
+Hence, away from $E$,
+\[
+\partial\log\|z\|^2
+=\frac{d\lambda}{\lambda}+\partial\log(1+|u|^2),
+\]
+while
+\[
+\partial\ddbar\log\|z\|^2
+=\partial\ddbar\log(1+|u|^2).
+\]
+The second term in the first display wedges to zero with the $(n-1)$st power of the Fubini--Study form because it would have holomorphic degree $n$ in the $n-1$ projective variables. Only $d\lambda/\lambda$ remains.
+\end{proof}
+
+\section{The local \texorpdfstring{$\bar\partial$}{dbar}-homotopy formula}
+
+\subsection{Regularity in degree zero}
+
+\begin{theorem}[Holomorphic distributions]
+Let $U\subseteq\C^n$ be open. If $T\in\Dcur^{0,0}(U)$ and $\ddbar T=0$, then there is a unique $f\in\mathcal O(U)$ such that $T=T_f$.
+\end{theorem}
+
+\begin{proof}
+Locally identify $T$ with a scalar distribution. The equation $\ddbar T=0$ means
+\[
+\frac{\partial T}{\partial\bar z_j}=0\qquad(j=1,\dots,n)
+\]
+in the distributional sense. Therefore
+\[
+\Delta T=4\sum_{j=1}^n
+\frac{\partial^2T}{\partial z_j\partial\bar z_j}=0.
+\]
+Weyl's lemma implies that $T$ is represented by a smooth harmonic function $f$. The distributional Cauchy--Riemann equations then become the ordinary equations $\partial f/\partial\bar z_j=0$, so $f$ is holomorphic. Uniqueness follows because a holomorphic function defining the zero distribution is identically zero.
+\end{proof}
+
+\subsection{The diagonal current and the Koppelman operator}
+
+Let
+\[
+\delta:\C_z^n\times\C_w^n\to\C^n,
+\qquad \delta(z,w)=w-z,
+\]
+and let $B=\delta^*T_\beta$. Since $\delta$ is a submersion and $\delta^{-1}(0)=\Delta$, the complex orientation on the diagonal gives
+\[
+\ddbar B=[\Delta]
+\tag{8.1}
+\]
+as currents on $\C_z^n\times\C_w^n$. This is the translated Bochner--Martinelli residue identity.
+
+Let $\prz$ and $\prw$ denote the two projections. If $\varphi\in\A_c^{p,q}(\C^n)$ with $q>0$, define
+\[
+K\varphi
+:=(\prz)_*\bigl(B\wedge\prw^*\varphi\bigr).
+\tag{8.2}
+\]
+The product is locally integrable because $B$ has a singularity of order $O(|w-z|^{1-2n})$, and $\varphi$ is smooth. The pushforward is well-defined because $\varphi$ has compact support in the $w$-variable. Bidegree shows that $K\varphi$ has type $(p,q-1)$.
+
+The advantage of (8.2) is that the mixed $d\bar z$ and $d\bar w$ terms are not reordered by hand. Fiber integration performs the required component extraction with one fixed orientation convention.
+
+\begin{theorem}[Bochner--Martinelli--Koppelman homotopy]
+For every $\varphi\in\A_c^{p,q}(\C^n)$ with $q>0$,
+\[
+\ddbar K\varphi+K\ddbar\varphi=\varphi.
+\tag{8.3}
+\]
+\end{theorem}
+
+\begin{proof}
+The fiber of $\prz$ has real dimension $2n$, hence fiber integration commutes with the exterior differential, and therefore with the $(0,1)$ component $\ddbar$, for forms with proper support over the base. Since $B$ has total degree $2n-1$, the Leibniz rule gives
+\[
+\ddbar(B\wedge\prw^*\varphi)
+=(\ddbar B)\wedge\prw^*\varphi
+-B\wedge\prw^*(\ddbar\varphi).
+\]
+Using (8.1) and pushing forward,
+\begin{align*}
+\ddbar K\varphi
+&=(\prz)_*\bigl([\Delta]\wedge\prw^*\varphi\bigr)
+ -(\prz)_*\bigl(B\wedge\prw^*(\ddbar\varphi)\bigr)\\
+&=\varphi-K\ddbar\varphi.
+\end{align*}
+The first term is $\varphi$ because $\prz|_\Delta:\Delta\to\C^n$ is the identity and $\prw|_\Delta=\prz|_\Delta$.
+\end{proof}
+
+\begin{remark}[Relation with component formulas]
+Expanding $d\overline{(w-z)}_j=d\bar w_j-d\bar z_j$ decomposes $B$ into the usual Koppelman components. If these components are regrouped as a tensor product of $z$-forms and $w$-forms, the relation away from the diagonal contains degree-dependent Koszul signs. Formula (8.3) is the same Koppelman formula, but (8.1)--(8.2) keep those signs inside the standard calculus of currents and fiber integration. Compare \cite[Chapter I, \S3, especially the Koppelman formula and the Dolbeault--Grothendieck lemma]{Demailly}.
+\end{remark}
+
+\subsection{Extension to compactly supported currents}
+
+For compactly supported currents, the operator $K$ is defined by distributional convolution with the Bochner--Martinelli current, equivalently by transposition from the kernel in (8.2). Convolution is defined because one factor has compact support. It agrees with (8.2) on smooth compactly supported forms.
+
+\begin{proposition}[Current homotopy formula]
+If $T\in\Dcur^{p,q}(\C^n)$ has compact support and $q>0$, then
+\[
+\ddbar KT+K\ddbar T=T
+\tag{8.4}
+\]
+in $\Dcur^{p,q}(\C^n)$.
+\end{proposition}
+
+\begin{proof}
+Choose a standard smoothing kernel $\rho_\varepsilon$ and let $T_\varepsilon=T*\rho_\varepsilon$. Then $T_\varepsilon$ is smooth, its support stays in a fixed compact set for small $\varepsilon$, and
+\[
+T_\varepsilon\to T,
+\qquad
+\ddbar T_\varepsilon=(\ddbar T)*\rho_\varepsilon\to\ddbar T
+\]
+in the topology of currents. The kernel operator $K$ is continuous on compactly supported distributions, since it is convolution with a fixed distribution. Applying (8.3) to $T_\varepsilon$ and passing to the limit gives (8.4). This is the standard extension of the Koppelman formula to currents; see \cite[Chapter I, \S3]{Demailly}.
+\end{proof}
+
+\subsection{Local exactness for currents}
+
+\begin{corollary}[Local $\bar\partial$-Poincare lemma for currents]
+Let $U\subseteq\C^n$ be open, $q>0$, and $T\in\Dcur^{p,q}(U)$ with $\ddbar T=0$. For every $a\in U$ there are an open neighborhood $V$ of $a$ and $S\in\Dcur^{p,q-1}(V)$ such that
+\[
+T|_V=\ddbar S.
+\]
+\end{corollary}
+
+\begin{proof}
+Choose relatively compact balls
+\[
+a\in V\Subset W\Subset U
+\]
+and a cutoff $\chi\in C_c^\infty(W)$ equal to $1$ on a neighborhood of $\overline V$. Extend $\chi T$ by zero to $\C^n$. Since $\ddbar T=0$,
+\[
+\ddbar(\chi T)=(\ddbar\chi)\wedge T.
+\]
+The global homotopy formula (8.4) gives
+\[
+\chi T=\ddbar K(\chi T)+K\bigl((\ddbar\chi)\wedge T\bigr).
+\tag{8.5}
+\]
+Set
+\[
+E:=K\bigl((\ddbar\chi)\wedge T\bigr).
+\]
+The support of $(\ddbar\chi)\wedge T$ is disjoint from $V$. For $z\in V$, the kernel is therefore smooth in a neighborhood of that support; pairing it with the fixed current produces a smooth $(p,q)$-form $E$ on $V$. Restricting (8.5) to $V$ gives
+\[
+T=\ddbar K(\chi T)+E.
+\]
+Applying $\ddbar$ shows $\ddbar E=0$. By the ordinary smooth $\bar\partial$-Poincare lemma, after shrinking $V$ if necessary there is a smooth $(p,q-1)$-form $R$ on $V$ with $E=\ddbar R$. Thus
+\[
+T=\ddbar\bigl(K(\chi T)+R\bigr)
+\]
+on $V$.
+\end{proof}
+
+\section{Cohomology with currents}
+
+\subsection{Dolbeault current sheaves}
+
+Let $X$ be a complex manifold of dimension $n$. For $U\subseteq X$ open, set
+\[
+\Dcur_X^{p,q}(U)
+:=\bigl(\A_c^{n-p,n-q}(U)\bigr)'.
+\]
+If $V\subseteq U$ and $T\in\Dcur_X^{p,q}(U)$, define $T|_V$ by testing $T$ against the extension by zero to $U$ of a compactly supported test form on $V$. This extension is smooth because its support is compactly contained in $V$.
+
+\begin{proposition}[Dolbeault current resolution]
+For each $(p,q)$, $U\mapsto\Dcur_X^{p,q}(U)$ is a sheaf. Moreover
+\[
+0\longrightarrow\Omega_X^p
+\longrightarrow\Dcur_X^{p,0}
+\xrightarrow{\ddbar}\Dcur_X^{p,1}
+\xrightarrow{\ddbar}\cdots
+\xrightarrow{\ddbar}\Dcur_X^{p,n}
+\longrightarrow0
+\tag{9.1}
+\]
+is a fine resolution of $\Omega_X^p$.
+\end{proposition}
+
+\begin{proof}
+For the sheaf property, let $U=\bigcup_iU_i$. Uniqueness follows by taking a finite smooth partition of unity near the compact support of a test form and reducing its evaluation to the restrictions on the $U_i$. Compatible local currents glue by the same formula
+\[
+T(\eta)=\sum_iT_i(\rho_i\eta),
+\]
+and independence of the partition follows after passing to a common refinement.
+
+A holomorphic $p$-form $\alpha$ defines a $(p,0)$-current by integration. This map is injective: locally write $\alpha=\sum_I f_I dz_I$ and test against complementary forms times arbitrary compactly supported scalar functions.
+
+If $T\in\Dcur_X^{p,0}$ and $\ddbar T=0$, then locally
+\[
+T=\sum_{|I|=p}T_I\,dz_I
+\]
+and every scalar coefficient satisfies the distributional Cauchy--Riemann equations. Theorem 8.1 implies that every $T_I$ is holomorphic. Thus the kernel at degree $0$ is $\Omega_X^p$.
+
+Exactness in degree $q>0$ is Corollary 8.5. Finally, $\Dcur_X^{p,q}$ is a module over the sheaf of smooth functions. If $\{\rho_i\}$ is a smooth partition of unity subordinate to a locally finite cover, the endomorphisms $T\mapsto\rho_iT$ have the required supports and sum locally finitely to the identity. Hence each $\Dcur_X^{p,q}$ is fine.
+\end{proof}
+
+\subsection{Dolbeault cohomology computed by currents}
+
+\begin{theorem}
+For every complex manifold $X$ and every $p,q$,
+\[
+H^q(X,\Omega_X^p)
+\simeq
+H^q\bigl(\Gamma(X,\Dcur_X^{p,*}),\ddbar\bigr).
+\tag{9.2}
+\]
+Equivalently,
+\[
+H^q(X,\Omega_X^p)
+\simeq
+\frac{\ker(\ddbar:\Dcur^{p,q}(X)\to\Dcur^{p,q+1}(X))}
+{\operatorname{im}(\ddbar:\Dcur^{p,q-1}(X)\to\Dcur^{p,q}(X))}.
+\]
+\end{theorem}
+
+\begin{proof}
+Proposition 9.1 gives a fine, hence acyclic, resolution of $\Omega_X^p$. The standard theorem on acyclic resolutions computes the sheaf cohomology of $\Omega_X^p$ by the cohomology of its complex of global sections.
+\end{proof}
+
+\begin{remark}[Comparison with smooth Dolbeault forms]
+The ordinary Dolbeault complex
+\[
+0\to\Omega_X^p\to\A_X^{p,0}\xrightarrow{\ddbar}\cdots\xrightarrow{\ddbar}\A_X^{p,n}\to0
+\]
+is also a fine resolution. The inclusion of smooth forms into currents is a morphism between these two resolutions inducing the identity on $\Omega_X^p$. Therefore
+\[
+\A_X^{p,*}\hookrightarrow\Dcur_X^{p,*}
+\]
+induces an isomorphism on global Dolbeault cohomology. Currents enlarge the class of representatives without changing the cohomology.
+\end{remark}
+
+\subsection{The de Rham current complex}
+
+Let $M$ be a smooth real manifold of dimension $m$, and denote by $\Dcur_M^q$ the sheaf of degree-$q$ currents. The exterior derivative gives
+\[
+\Dcur_M^0\xrightarrow d\Dcur_M^1\xrightarrow d\cdots\xrightarrow d\Dcur_M^m.
+\]
+
+\begin{proposition}[de Rham current resolution]
+The sequence
+\[
+0\longrightarrow\underline\C_M
+\longrightarrow\Dcur_M^0
+\xrightarrow d\Dcur_M^1
+\xrightarrow d\cdots
+\xrightarrow d\Dcur_M^m
+\longrightarrow0
+\tag{9.3}
+\]
+is a fine resolution of the constant sheaf $\underline\C_M$.
+\end{proposition}
+
+\begin{proof}
+The sheaf and fineness arguments are the real analogues of Proposition 9.1. It remains to prove local exactness.
+
+In degree $0$, a current is a scalar distribution. If $dT=0$, every first distributional derivative vanishes. Convolving locally with a standard mollifier gives smooth functions with zero differential, hence locally constant functions. Passing to the limit shows that $T$ is a locally constant distribution.
+
+In positive degree, use the local regularization theorem for currents. On a coordinate ball $B$ and a smaller ball $B'\Subset B$, de Rham regularization gives continuous operators
+\[
+R_\varepsilon:\Dcur^q(B)\longrightarrow\A^q(B'),
+\qquad
+A_\varepsilon:\Dcur^q(B)\longrightarrow\Dcur^{q-1}(B')
+\]
+such that $R_\varepsilon T$ is smooth and
+\[
+R_\varepsilon T-T=dA_\varepsilon T+A_\varepsilon dT
+\tag{9.4}
+\]
+on $B'$. Locally these operators are constructed from convolution with a mollifier and the homotopy between translation and the identity; see \cite[Chapter I]{Demailly}. If $dT=0$ and $q>0$, then $R_\varepsilon T$ is a smooth closed $q$-form. The ordinary Poincare lemma on a smaller ball gives a smooth $(q-1)$-form $\eta$ with $R_\varepsilon T=d\eta$. Equation (9.4) then gives
+\[
+T=d\bigl(\eta-A_\varepsilon T\bigr).
+\]
+Thus (9.3) is locally exact in positive degree. Since the current sheaves are fine, it is a fine resolution.
+\end{proof}
+
+\begin{corollary}[Cohomology comparison]
+The inclusions of smooth forms into currents induce canonical isomorphisms
+\[
+H^*_{\mathrm{dR}}(M;\C)
+\simeq H^*(\Dcur^*(M),d)
+\]
+and, for a complex manifold $X$,
+\[
+H^q\bigl(\A^{p,*}(X),\ddbar\bigr)
+\simeq
+H^q\bigl(\Dcur^{p,*}(X),\ddbar\bigr)
+\simeq H^q(X,\Omega_X^p).
+\]
+\end{corollary}
+
+\begin{proof}
+Proposition 9.4 identifies the current de Rham complex as a fine resolution of $\underline\C_M$, while the usual de Rham complex is another fine resolution of the same sheaf. The de Rham theorem identifies their common cohomology with $H^*_{\mathrm{dR}}(M;\C)$. The Dolbeault statement follows from Theorem 9.2 and the ordinary Dolbeault theorem.
+\end{proof}
+
+\begin{thebibliography}{9}
+
+\bibitem{GH}
+P. Griffiths and J. Harris,
+\emph{Principles of Algebraic Geometry},
+Wiley Classics Library, 1994; reprint of the 1978 original.
+
+\bibitem{EV}
+H. Esnault and E. Viehweg,
+\emph{Deligne--Beilinson cohomology},
+in \emph{Beilinson's conjectures on special values of $L$-functions},
+Perspectives in Mathematics 4, Academic Press, 1988, 43--91.
+
+\bibitem{BCLRJ}
+J. I. Burgos Gil, A. Cauchi, F. Lemma, and J. Rodrigues Jacinto,
+\emph{Tempered currents and Deligne cohomology of Shimura varieties, with an application to $\mathrm{GSp}_6$},
+arXiv:2204.05163.
+
+\bibitem{Folland}
+G. B. Folland,
+\emph{Real Analysis: Modern Techniques and Their Applications},
+Wiley, 1984.
+
+\bibitem{Lee}
+J. M. Lee,
+\emph{Introduction to Smooth Manifolds}, 2nd ed.,
+Graduate Texts in Mathematics 218, Springer, 2013.
+
+\bibitem{Demailly}
+J.-P. Demailly,
+\emph{Complex Analytic and Differential Geometry},
+OpenContent book, current online version.
+
+\end{thebibliography}
+
+\end{document}
