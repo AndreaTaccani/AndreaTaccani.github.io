@@ -1,0 +1,39 @@
+name: Reconstruct seminar PDFs
+
+on:
+  push:
+    paths:
+      - 'pdf-build-trigger.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-pdfs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: Reconstruct PDFs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p files/seminar-notes
+          cat .pdf-build/serre/part-* | base64 --decode > files/seminar-notes/serre-duality-cohen-macaulay-lci.pdf
+          cat .pdf-build/currents/part-* | base64 --decode > files/seminar-notes/currents-residues-bochner-martinelli.pdf
+          cat .pdf-build/bl/part-* | base64 --decode > files/seminar-notes/beilinson-lichtenbaum-dedekind-domains.pdf
+          file files/seminar-notes/*.pdf
+
+      - name: Commit reconstructed PDFs
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add files/seminar-notes/*.pdf
+          git commit -m 'Add seminar report PDFs'
+          git push origin master
