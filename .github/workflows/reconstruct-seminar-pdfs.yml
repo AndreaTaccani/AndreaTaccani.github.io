@@ -1,9 +1,9 @@
-name: Reconstruct seminar PDFs
+name: Build seminar report PDFs
 
 on:
   push:
     paths:
-      - 'pdf-build-trigger.txt'
+      - '.tex-build/trigger'
   workflow_dispatch:
 
 permissions:
@@ -18,22 +18,50 @@ jobs:
           ref: master
           fetch-depth: 0
 
-      - name: Reconstruct PDFs
+      - name: Reconstruct LaTeX sources
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p files/seminar-notes
-          cat .pdf-build/serre/part-* | base64 --decode > files/seminar-notes/serre-duality-cohen-macaulay-lci.pdf
-          cat .pdf-build/currents/part-* | base64 --decode > files/seminar-notes/currents-residues-bochner-martinelli.pdf
-          cat .pdf-build/bl/part-* | base64 --decode > files/seminar-notes/beilinson-lichtenbaum-dedekind-domains.pdf
-          file files/seminar-notes/*.pdf
+          mkdir -p build files/seminar-notes
+          cat .tex-build/serre/part-* | base64 --decode | gzip -dc > build/serre.tex
+          cat .tex-build/currents/part-* | base64 --decode | gzip -dc > build/currents.tex
+          cat .tex-build/bl/part-* | base64 --decode | gzip -dc > build/beilinson-lichtenbaum.tex
 
-      - name: Commit reconstructed PDFs
+      - name: Compile reports
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: |
+            serre.tex
+            currents.tex
+            beilinson-lichtenbaum.tex
+          working_directory: build
+          latexmk_use_xelatex: false
+          args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode
+
+      - name: Install PDF validation tools
+        shell: bash
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+
+      - name: Stage public PDFs and clean temporary machinery
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp build/serre.pdf files/seminar-notes/serre-duality-cohen-macaulay-lci.pdf
+          cp build/currents.pdf files/seminar-notes/currents-residues-bochner-martinelli.pdf
+          cp build/beilinson-lichtenbaum.pdf files/seminar-notes/beilinson-lichtenbaum-dedekind-domains.pdf
+          for pdf in files/seminar-notes/*.pdf; do
+            pdfinfo "$pdf" >/dev/null
+            test "$(head -c 5 "$pdf")" = '%PDF-'
+          done
+          rm -rf .tex-build
+          rm -f .github/workflows/reconstruct-seminar-pdfs.yml
+
+      - name: Commit PDFs
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add files/seminar-notes/*.pdf
+          git add -A
           git commit -m 'Add seminar report PDFs'
           git push origin master
