@@ -6,7 +6,7 @@ static website hosted with GitHub Pages.
 ## Structure
 
 - `index.html`: home page
-- `research/`: research interests and current thesis
+- `research/`: research themes, current projects, work in preparation, and thesis
 - `cv/`: web CV
 - `teaching/`: teaching record
 - `contact/`: contact details
