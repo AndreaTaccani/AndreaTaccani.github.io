@@ -14,3 +14,4 @@ static website hosted with GitHub Pages.
 
 All pages use semantic HTML, visible keyboard focus, reduced-motion support,
 page-specific metadata, and a print stylesheet for the CV.
+
