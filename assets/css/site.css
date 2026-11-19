@@ -1,17 +1,17 @@
 :root {
-  --ink: #242824;
-  --muted: #5c625d;
-  --accent: #20594b;
-  --rule: #dce1dc;
-  --serif: Georgia, "Times New Roman", serif;
-  --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --paper: #f5eff9;
+  --ink: #2d2533;
+  --muted: #62566a;
+  --accent: #644278;
+  --rule: #d9cde1;
+  --serif: "Times New Roman", Times, "Liberation Serif", serif;
 }
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  background: #fff;
+  background: var(--paper);
   color: var(--ink);
   font: 1.125rem/1.65 var(--serif);
   overflow-wrap: break-word;
@@ -40,7 +40,7 @@ a:hover { text-decoration-thickness: 2px; }
   left: 1rem;
   top: 0.5rem;
   padding: 0.5rem 1rem;
-  background: white;
+  background: var(--paper);
   transform: translateY(-160%);
 }
 
@@ -51,7 +51,7 @@ a:hover { text-decoration-thickness: 2px; }
   align-items: baseline;
   justify-content: space-between;
   gap: 0.5rem 1.5rem;
-  font: 0.9375rem/1.45 var(--sans);
+  font: 1.0625rem/1.45 var(--serif);
 }
 
 .site-header {
@@ -62,7 +62,7 @@ a:hover { text-decoration-thickness: 2px; }
 
 .brand {
   color: var(--ink);
-  font: 1.125rem/1.5 var(--serif);
+  font: italic 1.3125rem/1.5 var(--serif);
   text-decoration: none;
 }
 
@@ -94,7 +94,7 @@ h1, h2, h3 {
 
 h1 {
   font-size: clamp(2.4rem, 6vw, 3.55rem);
-  letter-spacing: -0.035em;
+  letter-spacing: -0.025em;
 }
 
 h2 { font-size: clamp(1.5rem, 3.6vw, 1.9rem); }
@@ -122,11 +122,11 @@ p { margin: 0.75rem 0 0; }
 .meta, .record-date, .details-list dt {
   margin: 0 0 0.45rem;
   color: var(--muted);
-  font: 0.9rem/1.5 var(--sans);
+  font: 1rem/1.5 var(--serif);
 }
 
-.topic, .record, h2 + h3, p + h3 { margin-top: 1.25rem; }
-.topic p, .record p { margin-top: 0.35rem; }
+.record, h2 + h3, p + h3 { margin-top: 1.25rem; }
+.record p { margin-top: 0.35rem; }
 
 .record {
   display: grid;
@@ -169,8 +169,8 @@ p { margin: 0.75rem 0 0; }
   .site-header, .site-footer, .skip-link { display: none; }
   .container { width: 100%; }
   .site-shell { padding: 0; }
-  body { font-size: 11pt; }
-  .record, .topic { break-inside: avoid; }
+  body { background: white; color: black; font-size: 11pt; }
+  .record { break-inside: avoid; }
   h2, h3 { break-after: avoid; }
   a { color: inherit; }
 }
