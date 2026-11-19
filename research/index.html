@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#f5eff9">
   <link rel="canonical" href="https://andreataccani.github.io/research/">
   <link rel="stylesheet" href="/assets/css/site.css">
-  <link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/images/favicon.svg?at" sizes="any" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/images/apple-touch-icon-180x180.png">
   <link rel="manifest" href="/site.webmanifest">
   <meta property="og:type" content="website">
@@ -30,8 +30,17 @@
     </nav>
   </header>
 
-  <main id="main-content" class="container site-shell">
-    <article class="content-column">
+  <div class="container site-shell">
+    <aside class="profile" aria-label="Profile">
+      <img class="portrait" src="/images/profile.png" width="164" height="164" alt="Portrait of Andrea Taccani">
+      <div class="profile-info">
+        <p class="profile-name">Andrea Taccani</p>
+        <p>Doctoral researcher<br>University of Regensburg</p>
+        <p>Building M, Room 235<br><a href="mailto:andrea.taccani@mathematik.uni-regensburg.de">Email me</a></p>
+      </div>
+    </aside>
+
+    <main id="main-content" class="content-column">
       <header class="page-header">
         <h1>Research</h1>
         <p class="lead">My research is in arithmetic geometry and number theory. I am particularly interested in p-adic Fourier theory, p-adic Hodge theory, and L-functions.</p>
@@ -55,8 +64,8 @@
         <h2 id="notes-link-heading">Expository notes</h2>
         <p><a href="/notes/">Seminar reports and expository notes</a></p>
       </section>
-    </article>
-  </main>
+    </main>
+  </div>
 
   <footer class="site-footer container">
     <p>© 2026 Andrea Taccani</p>

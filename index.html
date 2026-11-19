@@ -9,8 +9,8 @@
   <meta name="theme-color" content="#f5eff9">
   <link rel="canonical" href="https://andreataccani.github.io/">
   <link rel="stylesheet" href="/assets/css/site.css">
-  <link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="/images/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" href="/images/favicon.svg?at" sizes="any" type="image/svg+xml">
+  <link rel="icon" href="/images/favicon-32x32.png?at" sizes="32x32">
   <link rel="apple-touch-icon" href="/images/apple-touch-icon-180x180.png">
   <link rel="manifest" href="/site.webmanifest">
   <meta property="og:type" content="profile">
@@ -60,14 +60,20 @@
     </nav>
   </header>
 
-  <main id="main-content" class="container site-shell">
-    <article class="content-column">
-      <header class="home-intro">
-        <div>
-          <h1>Andrea Taccani</h1>
-          <p class="lead">I am a doctoral researcher in mathematics at the University of Regensburg, working with Prof. Guido Kings.</p>
-        </div>
-        <img class="portrait" src="/images/profile.png" width="640" height="480" alt="Portrait of Andrea Taccani" fetchpriority="high">
+  <div class="container site-shell">
+    <aside class="profile" aria-label="Profile">
+      <img class="portrait" src="/images/profile.png" width="164" height="164" alt="Portrait of Andrea Taccani">
+      <div class="profile-info">
+        <p class="profile-name">Andrea Taccani</p>
+        <p>Doctoral researcher<br>University of Regensburg</p>
+        <p>Building M, Room 235<br><a href="mailto:andrea.taccani@mathematik.uni-regensburg.de">Email me</a></p>
+      </div>
+    </aside>
+
+    <main id="main-content" class="content-column">
+      <header class="page-header">
+        <h1>About me</h1>
+        <p class="lead">I am a doctoral researcher in mathematics at the University of Regensburg, working with Prof. Guido Kings.</p>
       </header>
 
       <p>My research is in arithmetic geometry and number theory. I am particularly interested in p-adic Fourier theory, p-adic Hodge theory, and L-functions.</p>
@@ -78,8 +84,8 @@
         <h2 id="preprint-heading">Integral trace duality and the Witt filtration on Lubin–Tate space</h2>
         <p><a href="https://arxiv.org/abs/2610.18246">arXiv:2610.18246</a> · <a href="https://arxiv.org/pdf/2610.18246">PDF</a></p>
       </section>
-    </article>
-  </main>
+    </main>
+  </div>
 
   <footer class="site-footer container">
     <p>© 2026 Andrea Taccani</p>
